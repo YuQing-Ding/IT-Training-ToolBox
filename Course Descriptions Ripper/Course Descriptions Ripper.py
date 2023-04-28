@@ -45,7 +45,7 @@ def process_pdfs(folder_path, output_file):
     styles = getSampleStyleSheet()
     styles['Heading1'].fontSize = 24
     styles['Heading1'].spaceAfter = 12
-    # 更改正文字体大小
+    # Change the body font size
     styles['BodyText'].fontSize = 14
     flowables = []
 
@@ -56,7 +56,7 @@ def process_pdfs(folder_path, output_file):
     flowables.append(title_paragraph)
 
     for course_id_and_name, course_description in course_descriptions:
-        # 移除文件名中的下划线
+        # Remove the underscore from the file name and replace it with "-"
         course_id_and_name = course_id_and_name.replace("_", " -")
         
         course_id_and_name_paragraph = Paragraph("<b>{}</b>".format(course_id_and_name), styles["BodyText"])
@@ -71,7 +71,7 @@ def process_pdfs(folder_path, output_file):
 
             if line_number < len(lines) - 1:
                 next_line = lines[line_number + 1]
-                if not re.match(r'^\s*[A-Z]', next_line):  # 如果下一行不是以大写字母开头
+                if not re.match(r'^\s*[A-Z]', next_line):  # If the next line does not start with an uppercase letter
                     line += " "
 
             modified_description += line
@@ -82,6 +82,6 @@ def process_pdfs(folder_path, output_file):
 
     doc.build(flowables)
 
-folder_path = "C:/Users/Scott/Desktop/backup/Yr1"
-output_file = "combined_course_descriptions.pdf"
+folder_path = "CHANGE TO YOUR PATH"
+output_file = "Combined_Course_Descriptions.pdf"
 process_pdfs(folder_path, output_file)
