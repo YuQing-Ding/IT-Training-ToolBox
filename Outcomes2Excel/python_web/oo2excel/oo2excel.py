@@ -1,9 +1,10 @@
-# app.py
 from flask import Flask, render_template, request, send_file
 import os
 import tempfile
 import shutil
+from werkzeug.utils import secure_filename
 from oo2excel_core import process_pdfs
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -21,24 +22,23 @@ def process():
     temp_dir = tempfile.mkdtemp()
     output_file_path = os.path.join(temp_dir, 'output.xlsx')
 
+    output_filename = ""
+
     for file in input_files:
         file.save(os.path.join(temp_dir, secure_filename(file.filename)))
+        output_filename = f"{os.path.splitext(secure_filename(file.filename))[0]}.xlsx"
 
-    your_script.process_pdfs(temp_dir, output_file_path)
+    process_pdfs(temp_dir, output_file_path)
 
-    # 使用with语句确保文件被正确关闭
     with open(output_file_path, 'rb') as file:
         file_data = file.read()
 
-    # 删除临时目录
     shutil.rmtree(temp_dir)
 
-    # 使用BytesIO创建一个文件对象，以便在响应中发送
     output_file_object = BytesIO(file_data)
+    response = send_file(output_file_object, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', as_attachment=True, download_name=output_filename)
 
-    response = send_file(output_file_object, attachment_filename='output.xlsx', as_attachment=True)
     return response
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

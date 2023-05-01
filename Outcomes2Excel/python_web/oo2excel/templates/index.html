@@ -8,8 +8,8 @@
 </head>
 <body>
     <h1>PDF Processor</h1>
-    <form action="/process_pdfs" method="POST" enctype="multipart/form-data">
-        <input type="file" name="pdf_files" multiple required>
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <input type="file" name="input_files" multiple required>
         <button type="submit">Process PDFs</button>
     </form>
 </body>
