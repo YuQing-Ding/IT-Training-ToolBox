@@ -1,3 +1,12 @@
+"""
+
+COPYRIGHT NOVA SCOTIA COMMUNITY COLLEGE - STRAIT AREA CAMPUS [ITGE]. ALL RIGHTS RESERVED.
+PRODUCT MANAGER : DAVIS BOUDREAU
+WRITTEN BY YUQING DING (SCOTT).
+SPECIAL THANKS : CHATGPT (OPENAI).
+
+"""
+
 from flask import Flask, render_template, request, send_file
 import os
 import tempfile
