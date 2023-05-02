@@ -7,7 +7,6 @@ SPECIAL THANKS : CHATGPT (OPENAI).
 
 """
 
-import subprocess
 import os
 import PyPDF2
 import nltk
@@ -18,18 +17,6 @@ from nltk.corpus import words
 from wordcloud import WordCloud
 import pdfrw
 import pandas as pd
-
-subprocess.check_call(["pip3", "install", "PyPDF2"])
-subprocess.check_call(["pip3", "install", "nltk"])
-subprocess.check_call(["pip3", "install", "wordcloud"])
-subprocess.check_call(["pip3", "install", "pandas"])
-
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('stopwords')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
@@ -110,21 +97,4 @@ def process_pdfs_in_folder(folder_path, mode):
                 output_path = os.path.join(root, output_filename)
                 create_wordcloud(words, output_path)
                 print(f"Word cloud saved as {output_path}")
-
-
-if __name__ == "__main__":
-    folder_path = os.path.join(os.path.dirname(__file__))
-    user_choice = int(input("Press 1 to extract Verbs, press 2 to extract Noun and Verbs: "))
-    merge_decision = input("Do you want to merge all PDFs in the folder before creating word clouds? (y/n): ")
-    if merge_decision.lower() == "y":
-        output_merged_pdf = os.path.join(folder_path, "merged_pdfs.pdf")
-        merge_pdfs(folder_path, output_merged_pdf)
-        print(f"All PDFs merged into {output_merged_pdf}")
-        text = extract_text_from_pdf(output_merged_pdf)
-        words = extract_words(text, user_choice)
-        output_path = os.path.join(folder_path, "merged_wordcloud.png")
-        create_wordcloud(words, output_path)
-        print(f"Word cloud saved as {output_path}")
-    else:
-        process_pdfs_in_folder(folder_path, user_choice)
 
