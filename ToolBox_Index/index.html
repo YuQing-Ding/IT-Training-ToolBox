@@ -257,6 +257,28 @@ function switchToLightMode() {
   document.body.classList.remove('dark-mode');
   document.body.classList.add('light-mode');
 }
+function setInitialThemeMode() {
+  if (localStorage.getItem('theme') === 'dark') {
+    themeSwitch.checked = true;
+    switchToDarkMode();
+  } else {
+    themeSwitch.checked = false;
+    switchToLightMode();
+  }
+}
+
+setInitialThemeMode();
+
+themeSwitch.addEventListener('change', function () {
+  if (this.checked) {
+    localStorage.setItem('theme', 'dark');
+    switchToDarkMode();
+  } else {
+    localStorage.setItem('theme', 'light');
+    switchToLightMode();
+  }
+});
+
 </script>
   </body>
 </html>
